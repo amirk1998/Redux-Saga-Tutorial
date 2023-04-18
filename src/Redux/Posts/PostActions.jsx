@@ -6,21 +6,21 @@ import {
   FETCH_POST_SUCCESS,
 } from './PostTypes';
 
-function fetchPostRequest(id) {
+export function fetchPostRequest(id) {
   return {
     type: FETCH_POST_REQUEST,
     payload: id,
   };
 }
 
-function fetchPostFailure(error) {
+export function fetchPostFailure(error) {
   return {
     type: FETCH_POST_FAILURE,
     payload: error,
   };
 }
 
-function fetchPostSuccess(Post) {
+export function fetchPostSuccess(Post) {
   return {
     type: FETCH_POST_SUCCESS,
     payload: Post,
