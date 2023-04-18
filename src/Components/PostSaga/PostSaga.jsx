@@ -1,10 +1,14 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPostRequest } from '../../Redux/Posts/PostActions';
 
 const PostSaga = () => {
   const [postId, setPostId] = useState('');
+  const { loading, error, data } = useSelector((state) => state.post);
+  const dispatch = useDispatch();
 
   return (
-    <div className='flex flex-col items-center'>
+    <div className='flex flex-col items-center w-1/2'>
       <h1 className='text-4xl text-slate-900 font-bold'>
         Redux Saga Middleware
       </h1>
@@ -28,10 +32,57 @@ const PostSaga = () => {
       ) : null}
       <button
         type='button'
-        className='text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 mt-6'
+        onClick={() => dispatch(fetchPostRequest(postId))}
+        className='text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-4 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 mt-6'
       >
         Get Post
       </button>
+
+      {loading ? (
+        <p className='text-2xl text-center font-bold text-blue-600'>
+          Loading ...
+        </p>
+      ) : error ? (
+        <p className='text-2xl text-center font-bold text-red-600'>{error}</p>
+      ) : data && data.title ? (
+        <div className='flex flex-col items-center gap-y-2 w-full'>
+          <p className='text-xl text-center font-medium text-slate-900'>
+            <span className='mr-2'>Title: </span> {data.title}
+          </p>
+          <p className='text-xl text-center font-medium text-slate-900'>
+            <span className='mr-2'>Body: </span> {data.body}
+          </p>
+        </div>
+      ) : (
+        <p className='text-xl text-center font-bold text-green-700'>
+          Fetch some posts
+        </p>
+      )}
+
+      {/* {loading && (
+        <p className='text-2xl text-center font-bold text-blue-600'>
+          Loading ...
+        </p>
+      )}
+
+      {error && (
+        <p className='text-2xl text-center font-bold text-red-600'>{error}</p>
+      )}
+
+      {data.title ? (
+        <div className='flex flex-col items-center'>
+          <p className='text-xl text-center font-bold text-slate-900'>
+            <span className='mr-2'>Title: </span> {data.title}
+          </p>
+          <p className='text-xl text-center font-bold text-slate-900'>
+            <span className='mr-2'>Body: </span> {data.body}
+          </p>
+        </div>
+      ) : (
+        <p className='text-xl text-center font-bold text-green-700'>
+          Fetch some posts
+        </p>
+      )} */}
     </div>
   );
 };

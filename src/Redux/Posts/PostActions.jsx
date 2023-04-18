@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import {
   FETCH_POST_FAILURE,
   FETCH_POST_REQUEST,

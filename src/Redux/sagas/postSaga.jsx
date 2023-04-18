@@ -1,7 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { FETCH_POST_REQUEST } from '../Posts/PostTypes';
 import axios from 'axios';
-import { fetchPostRequest, fetchPostSuccess } from '../Posts/PostActions';
+import { fetchPostFailure, fetchPostSuccess } from '../Posts/PostActions';
 
 function* fetchPost(action) {
   try {
@@ -9,7 +9,7 @@ function* fetchPost(action) {
     const response = yield call(() => axios.get(apiEndPoint));
     yield put(fetchPostSuccess(response.data));
   } catch (error) {
-    yield put(fetchPostRequest(error.message));
+    yield put(fetchPostFailure(error.message));
   }
 }
 
